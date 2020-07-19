@@ -11,5 +11,6 @@ require_once __DIR__.'/mounts/scan.php';
 require_once __DIR__.'/ocr/list-missing.php';
 require_once __DIR__.'/ocr/purge-images.php';
 require_once __DIR__.'/setup/benchmark.php';
+require_once __DIR__.'/setup/benchmark-algos.php';
 require_once __DIR__.'/user/grant.php';
 require_once __DIR__.'/user/list.php';
