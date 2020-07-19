@@ -652,7 +652,7 @@ class Controller implements IController {
       $this->users[$id] = null;
       return null;
     }
-    $this->users[$id] = new User($this, $record);
+    $this->users[$id] = new User($record);
     return $this->users[$id];
   }
 

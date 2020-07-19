@@ -7,7 +7,7 @@ use Surcouf\PhpArchive\Controller;
 if (!defined('CORE2'))
   exit;
 
-final class HashHelper implements IHashHelper {
+class HashHelper implements IHashHelper {
 
   public static function getHashAlgo() : string {
     global $Controller;

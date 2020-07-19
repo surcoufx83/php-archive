@@ -24,8 +24,7 @@ class User implements IUser, IDbObject, IHashable {
 
   private $changes = array();
 
-  public function __construct(IController &$Controller, $dr) {
-    $this->controller = $Controller;
+  public function __construct($dr) {
     $this->id = intval($dr['user_id']);
     $this->firstname = $dr['user_firstname'];
     $this->lastname = $dr['user_lastname'];
@@ -38,11 +37,7 @@ class User implements IUser, IDbObject, IHashable {
     $this->mailvalidated = (!is_null($dr['user_email_validated']) ? new DateTime($dr['user_email_validated']) : '');
     $this->lastactivity = (!is_null($dr['user_last_activity']) ? new DateTime($dr['user_last_activity']) : '');
     $this->hash = $dr['user_hash'];
-    if (is_null($this->hash))
-      $this->calculateHash();
     $this->avatar = $dr['user_avatar'];
-    if (is_null($this->avatar))
-      $this->getAvatarUrl();
   }
 
   public function calculateHash() : string {
@@ -62,6 +57,7 @@ class User implements IUser, IDbObject, IHashable {
   }
 
   public function createNewSession($keepSession) : bool {
+    global $Controller;
 
     $session_token = generateRandomToken(16);
     $session_password = generateRandomToken(24);
@@ -73,11 +69,11 @@ class User implements IUser, IDbObject, IHashable {
     $hash_token = password_hash($session_token, PASSWORD_ARGON2I, ['threads' => 12]);
     $hash_password = password_hash($session_password4hash, PASSWORD_ARGON2I, ['threads' => 12]);
 
-    if ($this->controller->setSessionCookies($this->loginname, $session_token, $session_password, $keepSession)) {
+    if ($Controller->setSessionCookies($this->loginname, $session_token, $session_password, $keepSession)) {
       $query = new QueryBuilder(EQueryType::qtINSERT, 'user_logins');
       $query->columns(['user_id', 'login_type', 'login_token', 'login_password', 'login_keep'])
             ->values([$this->id, 1, $hash_token, $hash_password, $keepSession]);
-      if ($this->controller->insert($query)) {
+      if ($Controller->insert($query)) {
         $this->session = new Session($this, array(
           'login_id' => 0,
           'user_id' => $this->id,
@@ -163,6 +159,7 @@ class User implements IUser, IDbObject, IHashable {
   }
 
   public function loadFiles(int $folder, $tenant = null) : array {
+    global $Controller;
     $query = new QueryBuilder(EQueryType::qtSELECT, 'files', DB_ANY);
     $query
           ->select('categories', DB_ANY)
@@ -179,15 +176,16 @@ class User implements IUser, IDbObject, IHashable {
           ->where('files', 'folder_id', '=', $folder)
           ->andWhere('mounts', 'tenant_id', '=', $this->getCurrentTenantId())
           ->orderBy('files', 'file_name');
-    $result = $this->controller->select($query);
+    $result = $Controller->select($query);
     $files = array();
     while ($record = $result->fetch_assoc()) {
-      $files[] = $this->controller->getFile($record)->getId();
+      $files[] = $Controller->getFile($record)->getId();
     }
     return $files;
   }
 
   public function loadFolders(int $parent, $tenant = null) : array {
+    global $Controller;
     $query = new QueryBuilder(EQueryType::qtSELECT, 'folders', DB_ANY);
     $query
           ->select('mounts', DB_ANY)
@@ -195,21 +193,22 @@ class User implements IUser, IDbObject, IHashable {
           ->where('folders', 'parent_id', '=', $parent)
           ->andWhere('mounts', 'tenant_id', '=', $this->getCurrentTenantId())
           ->orderBy('folders', 'folder_name');
-    $result = $this->controller->select($query);
+    $result = $Controller->select($query);
     $folders = array();
     while ($record = $result->fetch_assoc()) {
-      $folders[] = $this->controller->getFolder($record)->getId();
+      $folders[] = $Controller->getFolder($record)->getId();
     }
     return $folders;
   }
 
   public function verify($password) : bool {
+    global $Controller;
     $start = microtime(true);
     if (password_verify($password, $this->passwordhash)) {
       if (password_needs_rehash($this->passwordhash, PASSWORD_ARGON2I, ['threads' => 12])) {
         $this->passwordhash = password_hash($password, PASSWORD_ARGON2I, ['threads' => 12]);
         $this->changes['user_password'] = $this->passwordhash;
-        $this->controller->updateDbObject($this);
+        $Controller->updateDbObject($this);
       }
       return true;
     }
@@ -217,10 +216,11 @@ class User implements IUser, IDbObject, IHashable {
   }
 
   public function verifySession(string $session_token, string $session_password) : bool {
+    global $Controller;
     $query = new QueryBuilder(EQueryType::qtSELECT, 'user_logins', DB_ANY);
     $query->where('user_logins', 'user_id', '=', $this->id)
           ->orderBy([['login_time', 'DESC']]);
-    if ($result = $this->controller->select($query)) {
+    if ($result = $Controller->select($query)) {
       while ($record = $result->fetch_assoc()) {
         if (password_verify($session_token, $record['login_token'])) {
           $pwdhash = hash('crc32b', substr($session_token, 0, 16));
@@ -232,7 +232,7 @@ class User implements IUser, IDbObject, IHashable {
             $query = new QueryBuilder(EQueryType::qtUPDATE, 'user_logins');
             $query->update(['login_time' => $uptime->format('Y-m-d H:i:s')]);
             $query->where('user_logins', 'login_id', '=', intval($record['login_id']));
-            $this->controller->update($query);
+            $Controller->update($query);
 
             $record['login_time'] = $uptime->format('Y-m-d H:i:s');
             $this->session = new Session($this, $record);

@@ -2,9 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use Surcouf\PhpArchive\Controller;
 use Surcouf\PhpArchive\IController;
-use Surcouf\PhpArchive\Helper\IHashHelper;
+use Surcouf\PhpArchive\Helper\HashHelper;
 use Surcouf\PhpArchive\IUser;
 use Surcouf\PhpArchive\User;
 use Surcouf\PhpArchive\Database\EQueryType;
@@ -14,7 +13,6 @@ require_once realpath(__DIR__.'/../private/backend/functions.php');
 require_once realpath(__DIR__.'/../private/entities/Database/EQueryType.php');
 require_once realpath(__DIR__.'/../private/entities/Database/QueryBuilder.php');
 require_once realpath(__DIR__.'/../private/entities/IController.php');
-require_once realpath(__DIR__.'/../private/entities/Controller.php');
 require_once realpath(__DIR__.'/../private/entities/IDbObject.php');
 require_once realpath(__DIR__.'/../private/entities/IHashable.php');
 require_once realpath(__DIR__.'/../private/entities/Helper/IHashHelper.php');
@@ -31,16 +29,15 @@ class UserTest extends TestCase
   /** @var User */
   private $User;
 
-  /** @var Controller|MockObject */
+  /** @var IController|MockObject */
   private $Controller;
 
   protected function setUp() : void {
     parent::setUp();
-    $this->Controller = $this->getMockBuilder(Controller::class)
-      ->disableOriginalConstructor()
+    $this->Controller = $this->getMockBuilder(IController::class)
       ->disableOriginalConstructor()
       ->getMock();
-    $this->User = new User($this->Controller, array(
+    $this->User = new User(array(
       'user_id' => 0,
       'user_name' => 'foo',
       'user_hash' => null,
@@ -52,6 +49,7 @@ class UserTest extends TestCase
       'user_email_validation' => null,
       'user_email_validated' => null,
       'user_last_activity' => '2020-01-01 00:00:00',
+      'user_avatar' => null,
     ));
     $this->Session = array(
       'login_id' => 1,
