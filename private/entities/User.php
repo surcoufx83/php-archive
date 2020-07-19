@@ -5,6 +5,8 @@ namespace Surcouf\PhpArchive;
 use Surcouf\PhpArchive;
 use Surcouf\PhpArchive\Controller;
 use Surcouf\PhpArchive\IController;
+use Surcouf\PhpArchive\Helper\AvatarsHelper;
+use Surcouf\PhpArchive\Helper\HashHelper;
 use Surcouf\PhpArchive\IUser;
 use Surcouf\PhpArchive\Database\EQueryType;
 use Surcouf\PhpArchive\Database\QueryBuilder;
@@ -14,10 +16,10 @@ use \DateTime;
 if (!defined('CORE2'))
   exit;
 
-class User implements IUser, IDbObject {
+class User implements IUser, IDbObject, IHashable {
 
   private $controller = null;
-  private $id, $firstname, $lastname, $name, $initials, $loginname, $passwordhash, $mailadress;
+  private $id, $firstname, $lastname, $name, $initials, $loginname, $passwordhash, $mailadress, $hash, $avatar;
   private $mailvalidationcode, $mailvalidated, $lastactivity;
 
   private $changes = array();
@@ -35,6 +37,28 @@ class User implements IUser, IDbObject {
     $this->mailvalidationsent = (!is_null($dr['user_email_validation']) ? $dr['user_email_validation'] : '');
     $this->mailvalidated = (!is_null($dr['user_email_validated']) ? new DateTime($dr['user_email_validated']) : '');
     $this->lastactivity = (!is_null($dr['user_last_activity']) ? new DateTime($dr['user_last_activity']) : '');
+    $this->hash = $dr['user_hash'];
+    if (is_null($this->hash))
+      $this->calculateHash();
+    $this->avatar = $dr['user_avatar'];
+    if (is_null($this->avatar))
+      $this->getAvatarUrl();
+  }
+
+  public function calculateHash() : string {
+    global $Controller;
+    $data = [
+      $this->id,
+      $this->firstname,
+      $this->lastname,
+      $this->initials,
+      $this->loginname,
+      $this->mailadress,
+    ];
+    $this->hash = HashHelper::hash(join($data));
+    $this->changes['user_hash'] = $this->hash;
+    $Controller->updateDbObject($this);
+    return $this->hash;
   }
 
   public function createNewSession($keepSession) : bool {
@@ -66,12 +90,36 @@ class User implements IUser, IDbObject {
     return false;
   }
 
+  public function getAvatarUrl() : string {
+    global $Controller;
+    if (is_null($this->avatar) || !AvatarsHelper::exists($this->avatar)) {
+      $data = [
+        $this->id,
+        $this->firstname,
+        $this->lastname,
+        $this->initials,
+        $this->loginname,
+        $this->mailadress,
+      ];
+      $this->avatar = AvatarsHelper::createAvatar(join($data), 'u');
+      $this->changes['user_avatar'] = $this->avatar;
+      $Controller->updateDbObject($this);
+    }
+    return $Controller->getLink('private:avatar:'.$this->avatar);
+  }
+
   public function getDbChanges() : array {
     return $this->changes;
   }
 
   public function getFirstname() : string {
     return $this->firstname;
+  }
+
+  public function getHash(bool $calculateIfNull = true) : ?string {
+    if (is_null($this->hash))
+      $this->calculateHash();
+    return $this->hash;
   }
 
   public function getId() : int {
@@ -108,6 +156,10 @@ class User implements IUser, IDbObject {
 
   public function getUsername() : string {
     return $this->loginname;
+  }
+
+  public function hasHash() : bool {
+    return !is_null($this->hash);
   }
 
   public function loadFiles(int $folder, $tenant = null) : array {

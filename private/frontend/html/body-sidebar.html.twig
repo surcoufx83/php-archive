@@ -1,20 +1,11 @@
         <div class="nav-sidebar">
           <div class="nav-sidebar-inner-scroll">
             <div class="nav-sidebar-header">
-            {% if Controller.User().getCurrentTenant().isDefault() %}
               <a title="{{ Controller.User().getFirstname() }}'s Dokumente"
                 href="{{ Controller.getLink('private:home') }}">
-                <img class="avatar avatar-40" src="{{ Controller.User().getCurrentTenant().getAvatarUrl() }}" />
+                <img class="avatar avatar-40" src="{{ Controller.User().getAvatarUrl() }}" />
                 <div class="nav-sidebar-hideable">{{ Controller.User().getFirstname() }}'s Dokumente</div>
               </a>
-            {% else %}
-              <a title="{{ Controller.User().getCurrentTenant().getName() }}"
-                href="{{ Controller.getLink('tenant:main') }}">
-                <img class="avatar avatar-40" src="{{ Controller.User().getCurrentTenant().getAvatarUrl() }}" />
-                <div class="nav-sidebar-hideable">{{ Controller.User().getCurrentTenant().getName() }}</div>
-              </a>
-            {% endif %}
-
             </div>
             <ul class="nav-sidebar-level1">
               {% if Controller.User().getCurrentTenant().isDefault() %}

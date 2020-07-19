@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Surcouf\PhpArchive\Controller;
 use Surcouf\PhpArchive\IController;
+use Surcouf\PhpArchive\Helper\IHashHelper;
 use Surcouf\PhpArchive\IUser;
 use Surcouf\PhpArchive\User;
 use Surcouf\PhpArchive\Database\EQueryType;
@@ -15,6 +16,9 @@ require_once realpath(__DIR__.'/../private/entities/Database/QueryBuilder.php');
 require_once realpath(__DIR__.'/../private/entities/IController.php');
 require_once realpath(__DIR__.'/../private/entities/Controller.php');
 require_once realpath(__DIR__.'/../private/entities/IDbObject.php');
+require_once realpath(__DIR__.'/../private/entities/IHashable.php');
+require_once realpath(__DIR__.'/../private/entities/Helper/IHashHelper.php');
+require_once realpath(__DIR__.'/../private/entities/Helper/HashHelper.php');
 require_once realpath(__DIR__.'/../private/entities/IUser.php');
 require_once realpath(__DIR__.'/../private/entities/User.php');
 require_once realpath(__DIR__.'/../private/entities/User/Session.php');
@@ -39,6 +43,7 @@ class UserTest extends TestCase
     $this->User = new User($this->Controller, array(
       'user_id' => 0,
       'user_name' => 'foo',
+      'user_hash' => null,
       'user_firstname' => 'Jane',
       'user_lastname' => 'Doe',
       'user_fullname' => 'Jane Doe',
@@ -56,6 +61,15 @@ class UserTest extends TestCase
       'login_keep' => 1,
       'login_token' => '$argon2i$v=19$m=65536,t=4,p=12$RGVLV0ZBQmRIRWV4ZHQwUw$65rjgbQUV55HAntcJY3l5ElzM03fgZrjxMHXNC2HBlc',
       'login_password' => '$argon2i$v=19$m=65536,t=4,p=12$ZVRQMkNCWnJtWEhvZS9DVg$Z5w5ct78z0YDz97z/7tbw7bwiE/V+VgHZJxeTk/mMS4',
+    );
+  }
+
+  /**
+   * @covers User::calculateHash
+   */
+  public function testCalculateHash() {
+    $this->markTestSkipped(
+      'Waiting for Config redesign'
     );
   }
 

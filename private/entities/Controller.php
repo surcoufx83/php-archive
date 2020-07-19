@@ -224,6 +224,8 @@ class Controller implements IController {
 
   private function getLink_Private(array $params) : ?string {
     switch($params[1]) {
+      case 'avatar':
+        return '/pictures/avatars/'.$params[2];
       case 'categories':
         return '/categories'.(array_key_exists(2, $params) ? '/'.$params[2] : '');
       case 'category':
@@ -699,12 +701,12 @@ class Controller implements IController {
 
       switch(get_class($object)) {
 
-        case 'Surcouf\PhpArchive\Tenant':
+        case 'Surcouf\PhpArchive\User':
           if (count($object->getDbChanges()) == 0)
             break;
-          $query = new QueryBuilder(EQueryType::qtUPDATE, 'tenants');
+          $query = new QueryBuilder(EQueryType::qtUPDATE, 'users');
           $query->update($object->getDbChanges());
-          $query->where('tenants', 'tenant_id', '=', $object->getId());
+          $query->where('users', 'user_id', '=', $object->getId());
           $this->update($query);
           break;
 
@@ -722,11 +724,9 @@ class Controller implements IController {
   }
 
   public function updateDbObject(IDbObject &$object) : void {
-    $changes = $object->getDbChanges();
     $key = get_class($object).$object->getId();
     if (!array_key_exists($key, $this->changedObjects))
       $this->changedObjects[$key] = $object;
-    return;
   }
 
 }
