@@ -15,13 +15,13 @@ final class AvatarsHelper implements IAvatarsHelper {
     $filepath = combinePaths(DIR_PUBLIC_IMAGES, 'avatars', $filename);
     $identicon = new \Identicon\Identicon();
     $imageData = $identicon->getImageData($payload);
-    file_put_contents($filepath, $imageData);
+    FilesystemHelper::file_put_contents($filepath, $imageData);
     return ($filename);
   }
 
   public static function exists(string $filename) : bool {
     $filepath = combinePaths(DIR_PUBLIC_IMAGES, 'avatars', $filename);
-    return file_exists($filepath);
+    return FilesystemHelper::file_exists($filepath);
   }
 
 }
