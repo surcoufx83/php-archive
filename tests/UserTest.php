@@ -10,14 +10,14 @@ use Surcouf\PhpArchive\Database\EQueryType;
 use Surcouf\PhpArchive\Database\QueryBuilder;
 
 require_once realpath(__DIR__.'/../private/backend/functions.php');
-require_once realpath(__DIR__.'/../private/entities/database/EQueryType.php');
-require_once realpath(__DIR__.'/../private/entities/database/QueryBuilder.php');
+require_once realpath(__DIR__.'/../private/entities/Database/EQueryType.php');
+require_once realpath(__DIR__.'/../private/entities/Database/QueryBuilder.php');
 require_once realpath(__DIR__.'/../private/entities/IController.php');
 require_once realpath(__DIR__.'/../private/entities/Controller.php');
 require_once realpath(__DIR__.'/../private/entities/IDbObject.php');
 require_once realpath(__DIR__.'/../private/entities/IUser.php');
 require_once realpath(__DIR__.'/../private/entities/User.php');
-require_once realpath(__DIR__.'/../private/entities/user/Session.php');
+require_once realpath(__DIR__.'/../private/entities/User/Session.php');
 
 /**
  * @covers User::<public>
