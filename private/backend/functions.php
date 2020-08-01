@@ -4,10 +4,6 @@
 if (!defined('CORE2'))
   exit;
 
-function bool2str($b) {
-  return $b === true ? 'true' : 'false';
-}
-
 function formatFloat(float $value, int $precission = -1) {
   global $Config;
   $decplcs = $Config->Defaults->NumberFormat->Decimals->getInt();
@@ -36,10 +32,6 @@ function generateRandomToken($length = 32){
         return bin2hex(openssl_random_pseudo_bytes($length));
     }
     return null;
-}
-
-function getBool($v) {
-  return ($v === 1 || $v === '1' || $v === 'true' || $v === true);
 }
 
 $_rdblBytes = array('B', 'KB', 'MB', 'GB', 'TB');

@@ -2,6 +2,8 @@
 
 namespace Surcouf\PhpArchive;
 
+use Surcouf\PhpArchive\Helper\ConverterHelper;
+
 if (!defined('CORE2'))
   exit;
 
@@ -14,7 +16,7 @@ class Country implements ICountry {
     $this->code = $record['country_code'];
     $this->name = $record['country_name'];
     $this->namede = $record['country_name_de'];
-    $this->inenvelope = getBool($record['country_envelope_show']);
+    $this->inenvelope = ConverterHelper::to_bool($record['country_envelope_show']);
     $this->envelopename = $record['country_envelope_name'];
     $this->zippattern = $record['country_zip_pattern'];
   }
