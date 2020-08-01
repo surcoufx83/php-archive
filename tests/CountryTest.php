@@ -1,10 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use Surcouf\PhpArchive\Helper\ConverterHelper;
 use Surcouf\PhpArchive\Country;
 use Surcouf\PhpArchive\ICountry;
 
-require_once realpath(__DIR__.'/../private/backend/functions.php');
+require_once realpath(__DIR__.'/../private/entities/Helper/IConverterHelper.php');
+require_once realpath(__DIR__.'/../private/entities/Helper/ConverterHelper.php');
 require_once realpath(__DIR__.'/../private/entities/ICountry.php');
 require_once realpath(__DIR__.'/../private/entities/Country.php');
 

@@ -17,8 +17,8 @@ class UserListCommand extends Ahc\Cli\Input\Command
         'Username' => $obj->getKey(),
         'Name' => $obj->getName(),
         'E-Mail' => $obj->getMail(),
-        'Admin' => bool2str($obj->isAdmin()),
-        'Guest' => bool2str($obj->isGuest()),
+        'Admin' => ConverterHelper::bool_to_str($obj->isAdmin()),
+        'Guest' => ConverterHelper::bool_to_str($obj->isGuest()),
         'Group' => $obj->getGroup()->getId().': '.$obj->getGroup()->getName(),
       );
     }

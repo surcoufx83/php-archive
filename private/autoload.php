@@ -5,7 +5,6 @@ namespace Surcouf\PhpArchive;
 require_once DIR_BACKEND    .'/core.php';
 
 // Functions without classes yet
-require_once DIR_BACKEND    .'/functions.php';
 require_once DIR_BACKEND    .'/conf.mysql.php';
 
 spl_autoload_register(function($className)

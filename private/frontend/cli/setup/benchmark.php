@@ -1,6 +1,7 @@
 <?php
 
 use Surcouf\PhpArchive\Config\EConfigurationType;
+use Surcouf\PhpArchive\Helper\Formatter;
 
 class BenchmarkCommand extends Ahc\Cli\Input\Command
 {
@@ -96,7 +97,7 @@ class BenchmarkCommand extends Ahc\Cli\Input\Command
     $writer->write('', true);
     $writer->write('Database config benchmarks with '.$iterations.' iterations completed.', true);
     $writer->write('Average time per iteration: ');
-    $writer->ok(formatFloat($this->dbavg, 2).'ms', true);
+    $writer->ok(Formatter::float_format($this->dbavg, 2).'ms', true);
     $writer->write('', true);
   }
 
@@ -164,7 +165,7 @@ class BenchmarkCommand extends Ahc\Cli\Input\Command
     $writer->write('', true);
     $writer->write('Config access benchmarks with '.$isum.' iterations a 100 page requests completed.', true);
     $writer->write('Average time per iteration: ');
-    $writer->ok(formatFloat($this->confavg, 2).'ms', true);
+    $writer->ok(Formatter::float_format($this->confavg, 2).'ms', true);
     $writer->write('', true);
     var_dump($result);
   }

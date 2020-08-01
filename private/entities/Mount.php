@@ -5,6 +5,7 @@ namespace Surcouf\PhpArchive;
 use \DirectoryIterator;
 use \SplFileInfo;
 use Surcouf\PhpArchive\Config\Icon;
+use Surcouf\PhpArchive\Helper\Formatter;
 use Surcouf\PhpArchive\Mount\EMountType;
 
 if (!defined('CORE2'))
@@ -40,16 +41,16 @@ class Mount {
   function getDirCount($applyFormat = false) {
     if (!array_key_exists(1, $this->stats)) {
       if ($applyFormat)
-        return formatInt(0);
+        return Formatter::int_format(0);
       return 0;
     }
     if ($applyFormat)
-      return formatInt($this->stats[1]['entries']-1);
+      return Formatter::int_format($this->stats[1]['entries']-1);
     return $this->stats[1]['entries']-1;
   }
 
   function getDirCountStr() {
-    return $this->getDirCount(true).' '.getSnPl($this->getDirCount(), 'Verzeichnis', 'Verzeichnisse');
+    return Formatter::t($this->getDirCount(), 'Verzeichnis', 'Verzeichnisse', Formatter::FOValuePrefix);
   }
 
   function getDirStatistics() {
@@ -59,31 +60,31 @@ class Mount {
   function getFileCount($applyFormat = false) {
     if (!array_key_exists(0, $this->stats)) {
       if ($applyFormat)
-        return formatInt(0);
+        return Formatter::int_format(0);
       return 0;
     }
     if ($applyFormat)
-      return formatInt($this->stats[0]['entries']);
+      return Formatter::int_format($this->stats[0]['entries']);
     return $this->stats[0]['entries'];
   }
 
   function getFileCountStr() {
-    return $this->getFileCount(true).' '.getSnPl($this->getFileCount(), 'Datei', 'Dateien');
+    return Formatter::t($this->getFileCount(), 'Datei', 'Dateien', Formatter::FOValuePrefix);
   }
 
   function getFileSize($applyFormat = false) {
     if (!array_key_exists(0, $this->stats)) {
       if ($applyFormat)
-        return formatInt(0);
+        return Formatter::int_format(0);
       return 0;
     }
     if ($applyFormat)
-      return formatInt($this->stats[0]['size']);
+      return Formatter::int_format($this->stats[0]['size']);
     return $this->stats[0]['size'];
   }
 
   function getFileSizeStr() {
-    return getReadableSize($this->getFileSize());
+    return Formatter::byte_format($this->getFileSize());
   }
 
   function getFileStatistics() {

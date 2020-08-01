@@ -5,6 +5,7 @@ namespace Surcouf\PhpArchive;
 use \DateTime;
 use Surcouf\PhpArchive\Document\Category;
 use Surcouf\PhpArchive\File\Extension;
+use Surcouf\PhpArchive\Helper\ConverterHelper;
 
 if (!defined('CORE2'))
   exit;
@@ -28,11 +29,11 @@ class File implements IFile, IDbObject {
     $this->size = is_null($record['file_size']) ? null : intval($record['file_size']);
     $this->pages = is_null($record['file_pages']) ? null : intval($record['file_pages']);
     $this->checksum = $record['file_checksum'];
-    $this->preocrcheck = is_null($record['file_preocr_checked']) ? null : getBool($record['file_preocr_checked']);
-    $this->ocrpossible = is_null($record['file_ocr_possible']) ? null : getBool($record['file_ocr_possible']);
+    $this->preocrcheck = is_null($record['file_preocr_checked']) ? null : ConverterHelper::to_bool($record['file_preocr_checked']);
+    $this->ocrpossible = is_null($record['file_ocr_possible']) ? null : ConverterHelper::to_bool($record['file_ocr_possible']);
     $this->ocrpages = is_null($record['file_ocr_pages']) ? null : intval($record['file_ocr_pages']);
     $this->ocrcompleted = is_null($record['file_ocr_completed']) ? null : new \DateTime($record['file_ocr_completed']);
-    $this->haspreview = is_null($record['file_preview_generated']) ? null : getBool($record['file_preview_generated']);
+    $this->haspreview = is_null($record['file_preview_generated']) ? null : ConverterHelper::to_bool($record['file_preview_generated']);
   }
 
   public function getDbChanges() : array {

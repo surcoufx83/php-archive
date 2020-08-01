@@ -6,6 +6,7 @@ use \DateTime;
 use Surcouf\PhpArchive\User;
 use Surcouf\PhpArchive\Database\EQueryType;
 use Surcouf\PhpArchive\Database\QueryBuilder;
+use Surcouf\PhpArchive\Helper\ConverterHelper;
 
 if (!defined('CORE2'))
   exit;
@@ -19,7 +20,7 @@ class Session {
     $this->id = intval($data['login_id']);
     $this->userid = intval($data['user_id']);
     $this->time = new DateTime($data['login_time']);
-    $this->keep = getBool($data['login_keep']);
+    $this->keep = ConverterHelper::to_bool($data['login_keep']);
   }
 
   function destroy() {

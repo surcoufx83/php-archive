@@ -3,6 +3,7 @@
 namespace Surcouf\PhpArchive;
 
 use Surcouf\PhpArchive\Config\EConfigParamKind;
+use Surcouf\PhpArchive\Helper\ConverterHelper;
 use Surcouf\PhpArchive\Request\ERequestMethod;
 use Surcouf\PhpArchive\Response\EOutputMode;
 use Surcouf\PhpArchive\Controller;
@@ -198,9 +199,9 @@ class Dispatcher {
         if (!array_key_exists('requiresAuthentication', $params))
           $this->fnRequiresAuthentication = true;
         else
-          $this->fnRequiresAuthentication = getBool($params['requiresAuthentication']);
+          $this->fnRequiresAuthentication = ConverterHelper::to_bool($params['requiresAuthentication']);
         if (array_key_exists('ignoreMaintenance', $params)) {
-          $this->fnIgnoresMaintenanceMode = getBool($params['ignoreMaintenance']);
+          $this->fnIgnoresMaintenanceMode = ConverterHelper::to_bool($params['ignoreMaintenance']);
         }
         if (array_key_exists('outputMode', $params)) {
           $this->fnOutputMethod = $params['outputMode'];

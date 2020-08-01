@@ -59,8 +59,8 @@ class User implements IUser, IDbObject, IHashable {
   public function createNewSession($keepSession) : bool {
     global $Controller;
 
-    $session_token = generateRandomToken(16);
-    $session_password = generateRandomToken(24);
+    $session_token = HashHelper::generate_token(16);
+    $session_password = HashHelper::generate_token(24);
 
     $session_password4hash = hash('crc32b', substr($session_token, 0, 16));
     $session_password4hash .= $session_password;

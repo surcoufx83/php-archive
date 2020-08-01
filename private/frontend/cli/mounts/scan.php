@@ -20,7 +20,7 @@ class MountsScanCommand extends Ahc\Cli\Input\Command
       $table[] = array(
         'Id' => $obj->getId(),
         'Name' => $obj->getName(),
-        'Success' => bool2str($result),
+        'Success' => ConverterHelper::bool_to_str($result),
         'ReturnCode' => $response['Result']['Error']['Code'],
         'ReturnMessage' => $response['Result']['Error']['Message'],
       );

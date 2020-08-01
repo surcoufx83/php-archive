@@ -1,5 +1,7 @@
 <?php
 
+use Surcouf\PhpArchive\Helper\Formatter;
+
 class OcrPurgeImagesCommand extends Ahc\Cli\Input\Command
 {
   public function __construct()
@@ -13,8 +15,8 @@ class OcrPurgeImagesCommand extends Ahc\Cli\Input\Command
   {
     global $Config, $interactor, $writer;
     $fi = new FilesystemIterator(DIR_OCRCACHE, FilesystemIterator::SKIP_DOTS);
-    $mindate = getOldDate($Config->OcrMaintenance->PurgeFiles->getTimespan());
-    $writer->warn('Cache folder contains '.getSnPl(iterator_count($fi), 'file', 'files', true).'.', true);
+    $mindate = (new DateTime())->sub($Config->OcrMaintenance->PurgeFiles->getTimespan());
+    $writer->warn('Cache folder contains '.Formatter::t(iterator_count($fi), 'file', 'files', Formatter::FOValuePrefix).'.', true);
     $icount = 0;
     $ifailed = 0;
 
@@ -35,9 +37,9 @@ class OcrPurgeImagesCommand extends Ahc\Cli\Input\Command
           }
         }
       }
-      $writer->write(getSnPl($icount, 'file', 'files', true).' deleted.', true);
+      $writer->write(Formatter::t($icount, 'file', 'files', Formatter::FOValuePrefix).' deleted.', true);
       if ($ifailed > 0) {
-        $writer->error(getSnPl($ifailed, 'file', 'files', true).' could not be deleted.', true);
+        $writer->error(Formatter::t($ifailed, 'file', 'files', Formatter::FOValuePrefix).' could not be deleted.', true);
       }
     }
     return 1;
