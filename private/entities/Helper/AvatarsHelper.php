@@ -2,8 +2,6 @@
 
 namespace Surcouf\PhpArchive\Helper;
 
-use Surcouf\PhpArchive\Controller;
-
 if (!defined('CORE2'))
   exit;
 
