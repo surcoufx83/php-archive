@@ -219,7 +219,7 @@ class Mount {
 
   private function rescan__scanInboxes_iterateDirectory(&$stats, $subPath = '', $parent = null) {
     global $Files, $FilePaths;
-    $curpath = combinePaths($this->getPath(), $subPath);
+    $curpath = FilesystemHelper::paths_combine($this->getPath(), $subPath);
     $dirObject = new File(new SplFileInfo($curpath), $this, $parent);
     if (!array_key_exists($dirObject->getPath(), $FilePaths)) {
       $dirObject->updateDatabase();
@@ -254,7 +254,7 @@ class Mount {
           $fileObject->updateDatabase();
       }
       if ($fi->isDir()) {
-        $this->rescan__scanInboxes_iterateDirectory($stats, combinePaths($subPath, $fi->getFilename()), $dirObject);
+        $this->rescan__scanInboxes_iterateDirectory($stats, FilesystemHelper::paths_combine($subPath, $fi->getFilename()), $dirObject);
       }
     }
     return true;

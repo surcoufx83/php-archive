@@ -8,17 +8,6 @@ function bool2str($b) {
   return $b === true ? 'true' : 'false';
 }
 
-function combinePaths(...$paths) {
-  $fullpath = '';
-  foreach($paths AS $path) {
-    if ($fullpath == '')
-      $fullpath = $path;
-    else
-      $fullpath = $fullpath.DIRECTORY_SEPARATOR.$path;
-  }
-  return $fullpath;
-}
-
 function dateInterval2IsoFormat(DateInterval $interval) {
   // https://stackoverflow.com/questions/33787039/format-dateinterval-as-iso8601
   list($date,$time) = explode("T",$interval->format("P%yY%mM%dDT%hH%iM%sS"));

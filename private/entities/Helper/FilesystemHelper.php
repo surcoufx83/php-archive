@@ -17,4 +17,15 @@ class FilesystemHelper {
     return file_put_contents($filename, $data, $flags);
   }
 
+  public function paths_combine(...$paths) {
+    $fullpath = '';
+    foreach($paths AS $path) {
+      if ($fullpath == '')
+        $fullpath = $path;
+      else
+        $fullpath = $fullpath.DIRECTORY_SEPARATOR.$path;
+    }
+    return $fullpath;
+  }
+
 }

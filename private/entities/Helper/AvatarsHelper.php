@@ -12,7 +12,7 @@ final class AvatarsHelper implements IAvatarsHelper {
   public static function createAvatar(string $payload, string $appendix) : string {
     $data = HashHelper::hash($payload);
     $filename = $data.$appendix.'.png';
-    $filepath = combinePaths(DIR_PUBLIC_IMAGES, 'avatars', $filename);
+    $filepath = FilesystemHelper::paths_combine(DIR_PUBLIC_IMAGES, 'avatars', $filename);
     $identicon = new \Identicon\Identicon();
     $imageData = $identicon->getImageData($payload);
     FilesystemHelper::file_put_contents($filepath, $imageData);
@@ -20,7 +20,7 @@ final class AvatarsHelper implements IAvatarsHelper {
   }
 
   public static function exists(string $filename) : bool {
-    $filepath = combinePaths(DIR_PUBLIC_IMAGES, 'avatars', $filename);
+    $filepath = FilesystemHelper::paths_combine(DIR_PUBLIC_IMAGES, 'avatars', $filename);
     return FilesystemHelper::file_exists($filepath);
   }
 
