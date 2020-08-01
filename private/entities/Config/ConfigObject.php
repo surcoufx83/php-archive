@@ -393,7 +393,7 @@ class ConfigObject implements IConfigurationValue {
   public function setTimespan(DateInterval $newValue) : bool {
     if (!$this->set__checkPermission())
       return false;
-    $jsonvalue = json_encode(array('timespan' => dateInterval2IsoFormat($newValue)));
+    $jsonvalue = json_encode(array('timespan' => DateTimeHelper::dateInterval2IsoFormat($newValue)));
     if ($this->pushToDb($jsonvalue)) {
       $this->value = $newValue;
       return true;

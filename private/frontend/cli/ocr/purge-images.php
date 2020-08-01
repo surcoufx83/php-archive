@@ -13,7 +13,7 @@ class OcrPurgeImagesCommand extends Ahc\Cli\Input\Command
   {
     global $Config, $interactor, $writer;
     $fi = new FilesystemIterator(DIR_OCRCACHE, FilesystemIterator::SKIP_DOTS);
-    $mindate = getOldDate($Config->OcrMaintenance->PurgeFiles->getTimespan());
+    $mindate = (new DateTime())->sub($Config->OcrMaintenance->PurgeFiles->getTimespan());
     $writer->warn('Cache folder contains '.getSnPl(iterator_count($fi), 'file', 'files', true).'.', true);
     $icount = 0;
     $ifailed = 0;
