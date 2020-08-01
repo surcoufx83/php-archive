@@ -7,17 +7,17 @@ use Surcouf\PhpArchive\Controller;
 if (!defined('CORE2'))
   exit;
 
-class FilesystemHelper {
+class FilesystemHelper implements IFilesystemHelper {
 
-  public function file_exists(string $filename) : bool {
+  public static function file_exists(string $filename) : bool {
     return file_exists($filename);
   }
 
-  public function file_put_contents(string $filename, $data, ?int $flags = 0) {
+  public static function file_put_contents(string $filename, $data, ?int $flags = 0) {
     return file_put_contents($filename, $data, $flags);
   }
 
-  public function paths_combine(...$paths) {
+  public static function paths_combine(...$paths) : string {
     $fullpath = '';
     foreach($paths AS $path) {
       if ($fullpath == '')
