@@ -13,7 +13,7 @@ class FilesystemHelper {
     return file_exists($filename);
   }
 
-  public function file_put_contents(string $filename, mixed $data, ?int $flags = 0) {
+  public function file_put_contents(string $filename, $data, ?int $flags = 0) {
     return file_put_contents($filename, $data, $flags);
   }
 
