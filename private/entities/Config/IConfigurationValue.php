@@ -21,7 +21,7 @@ interface IConfigurationValue {
   public function addChild(ConfigObject &$child) : ConfigObject;
 
   public function getArray() : ?array;
-  public function ConverterHelper::to_bool(() : ?bool;
+  public function getBool() : ?bool;
   public function getChild($n) : ?\Surcouf\PhpArchive\ConfigurationValue;
   public function getDateTime() : ?DateTime;
   public function getDescription() : string;

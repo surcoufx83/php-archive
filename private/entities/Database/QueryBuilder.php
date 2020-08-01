@@ -2,6 +2,7 @@
 
 namespace Surcouf\PhpArchive\Database;
 
+use Surcouf\PhpArchive\Helper\Flags;
 use Surcouf\PhpArchive\IController;
 
 if (!defined('CORE2'))
@@ -46,7 +47,7 @@ class QueryBuilder {
     if ($this->queryType == EQueryType::None)
       throw new \Exception('Undefined query type.');
 
-    if (hasFlag(EQueryType::qtPREPARED_STMT, $this->queryType))
+    if (Flags::has_flag($this->queryType, EQueryType::qtPREPARED_STMT))
       return $this->buildStmt();
 
     if ($this->queryType == EQueryType::qtSELECT)
@@ -167,11 +168,11 @@ class QueryBuilder {
     if ($aggregation == 0)
       return $this->maskstr($alias).'.'.($field == DB_ANY ? $field : $this->maskstr($field));
     $field = ($field != DB_ANY ? $this->maskstr($alias).'.' : '' ).($field == DB_ANY ? $field : $this->maskstr($field));
-    if (hasFlag(EAggregationType::atCOUNT, $aggregation) && hasFlag(EAggregationType::atDISTINCT, $aggregation))
+    if (Flags::has_flag($aggregation, EAggregationType::atCOUNT) && Flags::has_flag($aggregation, EAggregationType::atDISTINCT))
       return 'COUNT(DISTINCT('.$field.'))'.($fieldalias != '' ? ' '.$this->maskstr($fieldalias) : '');
-    if (hasFlag(EAggregationType::atCOUNT, $aggregation))
+    if (Flags::has_flag($aggregation, EAggregationType::atCOUNT))
       return 'COUNT('.$field.')'.($fieldalias != '' ? ' '.$this->maskstr($fieldalias) : '');
-    if (hasFlag(EAggregationType::atDISTINCT, $aggregation))
+    if (Flags::has_flag($aggregation, EAggregationType::atDISTINCT))
       return 'DISTINCT('.$field.')'.($fieldalias != '' ? ' '.$this->maskstr($fieldalias) : '');
     throw new \Exception('Invalid aggrgation value.');
   }

@@ -22,9 +22,9 @@ class Extension implements IExtension, IDbObject {
     $this->ext = $data['ext_key'];
     $this->mime = $data['ext_mimetype'];
     $this->name = $data['ext_name'];
-    $this->nomail = ConverterHelper::to_bool(($data['ext_noemail']);
-    $this->canocr = ConverterHelper::to_bool(($data['ext_canocr']);
-    $this->inlineviewer = ConverterHelper::to_bool(($data['ext_inlineviewer']);
+    $this->nomail = ConverterHelper::to_bool($data['ext_noemail']);
+    $this->canocr = ConverterHelper::to_bool($data['ext_canocr']);
+    $this->inlineviewer = ConverterHelper::to_bool($data['ext_inlineviewer']);
   }
 
   public function canOcr() : bool {

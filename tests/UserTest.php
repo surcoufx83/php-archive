@@ -9,7 +9,6 @@ use Surcouf\PhpArchive\User;
 use Surcouf\PhpArchive\Database\EQueryType;
 use Surcouf\PhpArchive\Database\QueryBuilder;
 
-require_once realpath(__DIR__.'/../private/backend/functions.php');
 require_once realpath(__DIR__.'/../private/entities/Database/EQueryType.php');
 require_once realpath(__DIR__.'/../private/entities/Database/QueryBuilder.php');
 require_once realpath(__DIR__.'/../private/entities/IController.php');

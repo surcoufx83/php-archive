@@ -28,6 +28,13 @@ class HashHelperTest extends TestCase
   }
 
   /**
+   * @covers HashHelper::generate_token
+   */
+  public function testGenerate_token() {
+    $this->assertIsString(HashHelper::generate_token());
+  }
+
+  /**
    * @covers HashHelper::getHashAlgo
    */
   public function testGetHashAlgo() {

@@ -8,6 +8,7 @@ use \DateTime;
 use Surcouf\PhpArchive\Config\EConfigurationType;
 use Surcouf\PhpArchive\Config\IConfigurationValue;
 use Surcouf\PhpArchive\Config\Icon;
+use Surcouf\PhpArchive\Helper\ConverterHelper;
 use Surcouf\PhpArchive\Mail\Account;
 
 if (!defined('CORE2'))
@@ -29,7 +30,7 @@ class ConfigObject implements IConfigurationValue {
     $this->parentid = (!is_null($data['parent_id']) ? intval($data['parent_id']) : null);
     $this->name = $data['config_name'];
     $this->description = (!is_null($data['config_description']) ? $data['config_description'] : '');
-    $this->editable = ConverterHelper::to_bool(($data['config_editable']);
+    $this->editable = ConverterHelper::to_bool($data['config_editable']);
     $this->dbValue = json_decode($data['config_value'], true);
     $this->edited = ($data['edit_time'] === null ? null : new DateTime($data['edit_time']));
     $this->reqPermissionLevel = (!is_null($data['permission_id']) ? intval($data['permission_id']) : null);
@@ -69,7 +70,7 @@ class ConfigObject implements IConfigurationValue {
     return null;
   }
 
-  public function ConverterHelper::to_bool(() : ?bool {
+  public function getBool() : ?bool {
     if ($this->kind == EConfigurationType::TypeBoolean)
       return $this->value;
     return null;
@@ -145,7 +146,7 @@ class ConfigObject implements IConfigurationValue {
     if ($this->kind == EConfigurationType::TypeResponseCode)
       return array(
         'Result' => array(
-          'Success' => ConverterHelper::to_bool(($this->value['success']),
+          'Success' => ConverterHelper::to_bool($this->value['success']),
           'Error' => array(
             'Code' => intval($this->value['code']),
             'Message' => $this->value['message'],
