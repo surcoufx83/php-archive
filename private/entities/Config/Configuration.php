@@ -8,7 +8,7 @@ use Surcouf\PhpArchive\Config\ConfigObject;
 if (!defined('CORE2'))
   exit;
 
-class Configuration {
+final class Configuration {
 
   private $childs = array();
   private $childsByName = array();
