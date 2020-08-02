@@ -8,37 +8,11 @@
               </a>
             </div>
             <ul class="nav-sidebar-level1">
-              {% if Controller.User().getCurrentTenant().isDefault() %}
               <li{% if Page.Current == 'private:home' %} class="active"{% endif %}>
                 <a href="{{ Controller.getLink('private:home') }}">
-                  {{ Config.Icons.Home.getIcon('fa-fw mr-2')|raw }} Startseite
-                </a>
-              </li>
-              <li{% if Page.Current == 'dropzone:main' %} class="active"{% endif %}>
-                <a href="{{ Controller.getLink('dropzone:main') }}">
-                {{ Config.Icons.Drop.getIcon('fa-fw mr-2')|raw }} Dropzone
-                </a>
-              </li>
-              {% else %}
-              <li{% if Page.Current == 'tenant:main' %} class="active"{% endif %}>
-                <a href="{{ Controller.getLink('tenant:main') }}">
                   {{ Config.Icons.Home.getIcon('fa-fw mr-2')|raw }} Dashboard
                 </a>
-                {% if Page.Current == 'tenant:main' %}
-                <ul class="nav-sidebar-level2">
-                  <li{% if Page.CurrentSub == 'workflow:inbox' %} class="active"{% endif %}>
-                    <a href="{{ Controller.getLink('workflow:inbox') }}">Aufgaben</a>
-                  </li>
-                  <li{% if Page.CurrentSub == 'tenant:users' %} class="active"{% endif %}>
-                    <a href="{{ Controller.getLink('tenant:users') }}">Anwender</a>
-                  </li>
-                  <li{% if Page.CurrentSub == 'tenant:manage' %} class="active"{% endif %}>
-                    <a href="{{ Controller.getLink('tenant:manage') }}">Verwaltung</a>
-                  </li>
-                </ul>
-                {% endif %}
               </li>
-              {% endif %}
               <li{% if Page.Current == 'private:files' %} class="active"{% endif %}>
                 <a href="{{ Controller.getLink('private:files') }}">
                   {{ Config.Icons.Files.getIcon('fa-fw mr-2')|raw }} Dateien
@@ -53,6 +27,9 @@
                   </li>
                   <li{% if Page.CurrentSub == 'private:types' %} class="active"{% endif %}>
                     <a href="{{ Controller.getLink('private:types') }}">Dokumentarten</a>
+                  </li>
+                  <li{% if Page.CurrentSub == 'workflow:inbox' %} class="active"{% endif %}>
+                    <a href="{{ Controller.getLink('workflow:inbox') }}">Aufgaben</a>
                   </li>
                 </ul>
                 {% endif %}
@@ -70,12 +47,6 @@
                 <ul class="nav-sidebar-level2">
                   <li{% if Page.CurrentSub == 'admin:main' %} class="active"{% endif %}>
                     <a href="{{ Controller.getLink('admin:main') }}">Dashboard</a>
-                  </li>
-                <li{% if Page.CurrentSub == 'admin:customers' %} class="active"{% endif %}>
-                    <a href="{{ Controller.getLink('admin:customers') }}">Kunden</a>
-                  </li>
-                  <li{% if Page.CurrentSub == 'admin:tenants' %} class="active"{% endif %}>
-                    <a href="{{ Controller.getLink('admin:tenants') }}">Mandanten</a>
                   </li>
                   <li{% if Page.CurrentSub == 'admin:storage' %} class="active"{% endif %}>
                     <a href="{{ Controller.getLink('admin:storage') }}">Speicher</a>

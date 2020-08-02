@@ -7,7 +7,6 @@ $Controller->get(array(
   'pattern' => '/files',
   'fn' => 'ui_files'
 ));
-
 function ui_files() {
   global $Controller, $OUT, $twig;
 
@@ -20,7 +19,7 @@ function ui_files() {
   $query
         ->join('mounts', ['mounts', 'mount_id', '=', 'folders', 'mount_id'])
         ->where('folders', 'parent_id', 'IS NULL')
-        ->andWhere('mounts', 'tenant_id', '=', $Controller->User()->getCurrentTenantId());
+        ->andWhere('mounts', 'user_id', '=', $Controller->User()->getId());
   $rootfolder = $Controller->select($query)->fetch_assoc()['folder_id'];
 
   $folders = $Controller->User()->loadFolders($rootfolder);

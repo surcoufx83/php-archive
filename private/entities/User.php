@@ -174,7 +174,7 @@ class User implements IUser, IDbObject, IHashable {
           ->join('folders', ['folders', 'folder_id', '=', 'files', 'folder_id'])
           ->join('mounts', ['mounts', 'mount_id', '=', 'folders', 'mount_id'])
           ->where('files', 'folder_id', '=', $folder)
-          ->andWhere('mounts', 'tenant_id', '=', $this->getCurrentTenantId())
+          ->andWhere('mounts', 'user_id', '=', $this->id)
           ->orderBy('files', 'file_name');
     $result = $Controller->select($query);
     $files = array();
@@ -191,7 +191,7 @@ class User implements IUser, IDbObject, IHashable {
           ->select('mounts', DB_ANY)
           ->join('mounts', ['mounts', 'mount_id', '=', 'folders', 'mount_id'])
           ->where('folders', 'parent_id', '=', $parent)
-          ->andWhere('mounts', 'tenant_id', '=', $this->getCurrentTenantId())
+          ->andWhere('mounts', 'user_id', '=', $this->id)
           ->orderBy('folders', 'folder_name');
     $result = $Controller->select($query);
     $folders = array();

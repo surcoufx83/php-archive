@@ -4,6 +4,7 @@ namespace Surcouf\PhpArchive\File;
 
 use Surcouf\PhpArchive\IDbObject;
 use Surcouf\PhpArchive\Config\Icon;
+use Surcouf\PhpArchive\Helper\ConverterHelper;
 
 if (!defined('CORE2'))
   exit;
