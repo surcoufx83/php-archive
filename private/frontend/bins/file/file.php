@@ -36,40 +36,34 @@ $Controller->get(array(
 ));
 
 function ui_file() {
-  global $OUT, $Config, $Files, $Router, $twig;
+  global $OUT, $Controller, $twig;
 
-  load_documentCategories();
-  load_documentTypes();
+  $id = intval($Controller->Dispatcher()->getMatches()['id']);
+  $file = $Controller->getFile($id);
 
-  $id = intval($Router->getMatches()['id']);
-  load_file($id, true);
-  $file =& $Files[$id];
-  $file->loadDocument();
-
-  if ($file->needsValidation()
+  /*if ($file->needsValidation()
     && !$file->isDir())
     $OUT['Page']['Breadcrumbs'][] = array('Überprüfung erforderlich!', $file->getValidationLink(), $Config->Exclamation, false, 'text-danger');
+*/
+  //$OUT['Page']['Breadcrumbs'][] = array('Ordner '.$file->getMount()->getName(), $file->getMount()->getRoot()->getLink(), $Config->Files);
 
-  $OUT['Page']['Breadcrumbs'][] = array('Ordner '.$file->getMount()->getName(), $file->getMount()->getRoot()->getLink(), $Config->Files);
+  //if ($file->getMount()->getRoot()->getId() != $file->getParent()->getId())
+  //  $OUT['Page']['Breadcrumbs'][] = array('Ordner '.$file->getParent()->getName(), $file->getParent()->getLink(), $Config->Files);
 
-  if ($file->getMount()->getRoot()->getId() != $file->getParent()->getId())
-    $OUT['Page']['Breadcrumbs'][] = array('Ordner '.$file->getParent()->getName(), $file->getParent()->getLink(), $Config->Files);
+    //$OUT['Page']['Breadcrumbs'][] = array('Bearbeiten', $file->getEditLink(), $Config->Edit);
 
+  //if ($file->getExtObject()->allowMailsend())
+  //  $OUT['Page']['Breadcrumbs'][] = array('Per E-Mail verschicken', $file->getMailLink(), $Config->SendMail);
 
-    $OUT['Page']['Breadcrumbs'][] = array('Bearbeiten', $file->getEditLink(), $Config->Edit);
+  //if ($file->canDoOcr() === true && !$file->needsValidation())
+  //  $OUT['Page']['Breadcrumbs'][] = array('OCR', $file->getOcrLink(), $Config->Ocr);
 
-  if ($file->getExtObject()->allowMailsend())
-    $OUT['Page']['Breadcrumbs'][] = array('Per E-Mail verschicken', $file->getMailLink(), $Config->SendMail);
-
-  if ($file->canDoOcr() === true && !$file->needsValidation())
-    $OUT['Page']['Breadcrumbs'][] = array('OCR', $file->getOcrLink(), $Config->Ocr);
-
-    $OUT['Page']['Breadcrumbs'][] = array('Klassifizierung', $file->getClassifyLink(), $Config->Classify);
+  //  $OUT['Page']['Breadcrumbs'][] = array('Klassifizierung', $file->getClassifyLink(), $Config->Classify);
 
   $OUT['Page']['File'] = $file;
   $OUT['Page']['Heading1'] = $file->getName();
   $OUT['Page']['Mode'] = 'readonly';
-  $OUT['Page']['ShowFile'] = $file->showInline();
+  $OUT['Page']['ShowFile'] = true; //$file->showInline();
   $OUT['Content'] = $twig->render('views/fileview/file-view.html.twig', $OUT);
 } // ui_file()
 

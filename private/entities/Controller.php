@@ -26,6 +26,7 @@ class Controller implements IController {
   private $extensions = array(), $extensionsByName = array();
   private $files = array(), $filesByName = array();
   private $folders = array(), $foldersByName = array();
+  private $mounts = array();
   private $types = array();
   private $users = array();
 
@@ -264,6 +265,18 @@ class Controller implements IController {
     return null;
   }
 
+  public function getMount($filter) : ?Mount {
+    if (is_integer($filter)) {
+      if (!array_key_exists($filter, $this->mounts))
+        return $this->loadMount($filter);
+      else
+        return $this->mounts[$filter];
+    }
+    if (is_array($filter))
+      return $this->registerMount(null, $filter);
+    return null;
+  }
+
   public function getType($filter) : ?Type {
     if (is_integer($filter)) {
       if (!array_key_exists($filter, $this->types))
@@ -425,6 +438,16 @@ class Controller implements IController {
       return $this->registerFolder(intval($record['folder_id']), $record);
     }
     return $this->registerFolder($id);
+  }
+
+  private function loadMount(int $id) : ?Mount {
+    $query = new QueryBuilder(EQueryType::qtSELECT, 'mounts', DB_ANY);
+    $query->where('mounts', 'mount_id', '=', $id);
+    $result = $this->select($query);
+    if ($record = $result->fetch_assoc()) {
+      return $this->registerMount(intval($record['mount_id']), $record);
+    }
+    return $this->registerMount($id);
   }
 
   private function loadType(int $id) : ?Type {
@@ -628,6 +651,19 @@ class Controller implements IController {
     $this->folders[$id] = new Folder($record);
     $this->foldersByName[$this->folders[$id]->getName()] =& $this->folders[$id];
     return $this->folders[$id];
+  }
+
+  private function registerMount(?int $id, array $record=null) : ?Mount {
+    if (is_null($id) && is_array($record))
+      $id = intval($record['mount_id']);
+    if (array_key_exists($id, $this->mounts))
+      return $this->mounts[$id];
+    if (is_null($record)) {
+      $this->mounts[$id] = null;
+      return null;
+    }
+    $this->mounts[$id] = new Mount($record);
+    return $this->mounts[$id];
   }
 
   private function registerType(?int $id, array $record=null) : ?Type {

@@ -88,6 +88,10 @@ class File implements IFile, IDbObject {
     return $this->id;
   }
 
+  public function getMount() : ?Mount {
+    return $this->getFolder()->getMount();
+  }
+
   public function getName() : string {
     return $this->name;
   }

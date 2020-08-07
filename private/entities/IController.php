@@ -28,6 +28,7 @@ interface IController {
   public function getFolder($filter) : ?Folder;
   public function getInsertId() : ?int;
   public function getLink($filter) : ?string;
+  public function getMount($filter) : ?Mount;
   public function getType($filter) : ?Type;
   public function getUser($filter) : ?User;
   public function init() : void;
