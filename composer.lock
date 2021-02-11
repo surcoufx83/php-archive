@@ -1913,24 +1913,23 @@
         },
         {
             "name": "thiagoalessio/tesseract_ocr",
-            "version": "2.9.3",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thiagoalessio/tesseract-ocr-for-php.git",
-                "reference": "e932f7410e753434b26b214f3f322933efafa0f0"
+                "reference": "d288750532593ba3eaf2e7446f426fc561caf2a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thiagoalessio/tesseract-ocr-for-php/zipball/e932f7410e753434b26b214f3f322933efafa0f0",
-                "reference": "e932f7410e753434b26b214f3f322933efafa0f0",
+                "url": "https://api.github.com/repos/thiagoalessio/tesseract-ocr-for-php/zipball/d288750532593ba3eaf2e7446f426fc561caf2a2",
+                "reference": "d288750532593ba3eaf2e7446f426fc561caf2a2",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.4 || ^7.0"
+                "php": "^5.3 || ^7.0 || ^8.0"
             },
             "require-dev": {
-                "codacy/coverage": "dev-master",
-                "phpunit/php-code-coverage": "^2.2.4"
+                "phpunit/php-code-coverage": "^2.2.4 || ^9.0.0"
             },
             "type": "library",
             "autoload": {
@@ -1954,7 +1953,7 @@
                 "Tesseract",
                 "text recognition"
             ],
-            "time": "2020-01-27T19:53:35+00:00"
+            "time": "2021-02-10T17:51:31+00:00"
         },
         {
             "name": "twbs/bootstrap",
@@ -2090,12 +2089,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
